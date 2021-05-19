@@ -33,9 +33,6 @@ public class PlanetaServiceAddTest {
     @RestClient
     SwapiService mockSwapiService;
 
-    private final String idValid = "60a55a4e02446209bb771942";
-    private final String idInvalid = "123";
-
     @BeforeEach
     public void setup() {
 

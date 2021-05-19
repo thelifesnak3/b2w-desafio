@@ -68,7 +68,7 @@ public class PlanetaResource {
         description = "Serviço responsável por cadastrar os planetas.")
     @APIResponses(value = {
         @APIResponse(
-            responseCode = "200",
+            responseCode = "201",
             description = "Sucesso"
         ),
         @APIResponse(
@@ -123,6 +123,10 @@ public class PlanetaResource {
         @APIResponse(
             responseCode = "204",
             description = "O planeta foi deletado com sucesso"
+        ),
+        @APIResponse(
+            responseCode = "400",
+            description = "O id informado é inválido"
         ),
         @APIResponse(
             responseCode = "404",

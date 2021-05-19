@@ -74,6 +74,10 @@ public class PlanetaService {
     }
 
     public void delete(String id) {
+        if(!ObjectId.isValid(id)) {
+            throw new BadRequestException(idInvalidoException);
+        }
+
         ObjectId planetaId = new ObjectId(id);
         Optional<Planeta> planetaOp = planetaRepository.findByIdOptional(planetaId);
 
