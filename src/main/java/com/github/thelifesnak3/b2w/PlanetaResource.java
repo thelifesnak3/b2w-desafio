@@ -3,6 +3,7 @@ package com.github.thelifesnak3.b2w;
 import com.github.thelifesnak3.b2w.dto.AdicionarPlanetaDTO;
 import com.github.thelifesnak3.b2w.dto.PlanetaDTO;
 import com.github.thelifesnak3.b2w.entities.Planeta;
+import com.github.thelifesnak3.b2w.exception.ValidateException;
 import com.github.thelifesnak3.b2w.service.PlanetaService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -10,6 +11,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/planetas")
+@Tag(name = "Planeta")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PlanetaResource {
@@ -82,7 +85,7 @@ public class PlanetaResource {
             description = "Erro interno da aplicação"
         )
     })
-    public Response add(AdicionarPlanetaDTO adicionarPlanetaDTO) {
+    public Response add(AdicionarPlanetaDTO adicionarPlanetaDTO) throws ValidateException {
         planetaService.add(adicionarPlanetaDTO);
         return Response.status(Response.Status.CREATED).build();
     }

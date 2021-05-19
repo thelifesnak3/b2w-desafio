@@ -4,6 +4,8 @@ import com.github.thelifesnak3.b2w.dto.AdicionarPlanetaDTO;
 import com.github.thelifesnak3.b2w.dto.PlanetaDTO;
 import com.github.thelifesnak3.b2w.dto.SwapiDTO;
 import com.github.thelifesnak3.b2w.entities.Planeta;
+import com.github.thelifesnak3.b2w.exception.ValidateException;
+import com.github.thelifesnak3.b2w.helper.ValidacaoHelper;
 import com.github.thelifesnak3.b2w.mapper.PlanetaMapper;
 import com.github.thelifesnak3.b2w.repository.PlanetaRepository;
 import org.bson.types.ObjectId;
@@ -29,6 +31,9 @@ public class PlanetaService {
 
     @Inject
     PlanetaMapper planetaMapper;
+
+    @Inject
+    ValidacaoHelper validacaoHelper;
 
     public final String idInvalidoException = "O id informado é inválido";
     public final String nomeNotFoundSwapi = "Não foi possível encontrar o nome informado na SWAPI";
@@ -57,7 +62,9 @@ public class PlanetaService {
     }
 
     @Transactional
-    public void add(AdicionarPlanetaDTO adicionarPlanetaDTO) {
+    public void add(AdicionarPlanetaDTO adicionarPlanetaDTO) throws ValidateException {
+        validacaoHelper.validarDto(adicionarPlanetaDTO);
+
         SwapiDTO swapiDTO = swapiService.getPlanet(adicionarPlanetaDTO.nome);
         if(swapiDTO.count == 0) {
             throw new BadRequestException(nomeNotFoundSwapi);
