@@ -30,6 +30,10 @@ public class PlanetaService {
     @Inject
     PlanetaMapper planetaMapper;
 
+    public final String idInvalidoException = "O id informado é inválido";
+    public final String nomeNotFoundSwapi = "Não foi possível encontrar o nome informado na SWAPI";
+    public final String nomeDuplicated = "O nome informado já foi cadastrado";
+
     public List<Planeta> find(String nome) {
         if(nome != null) {
             return planetaRepository.find("nome", nome).list();
@@ -39,7 +43,7 @@ public class PlanetaService {
 
     public PlanetaDTO findById(String id) {
         if(!ObjectId.isValid(id)) {
-            throw new BadRequestException("O id informado é inválido");
+            throw new BadRequestException(idInvalidoException);
         }
 
         ObjectId planetaId = new ObjectId(id);
@@ -56,12 +60,12 @@ public class PlanetaService {
     public void add(AdicionarPlanetaDTO adicionarPlanetaDTO) {
         SwapiDTO swapiDTO = swapiService.getPlanet(adicionarPlanetaDTO.nome);
         if(swapiDTO.count == 0) {
-            throw new BadRequestException("Não foi possível encontrar o nome informado na SWAPI");
+            throw new BadRequestException(nomeNotFoundSwapi);
         }
 
-        Optional<Planeta> planetaOp = planetaRepository.find("nome", adicionarPlanetaDTO.nome).firstResultOptional();
+        Optional<Planeta> planetaOp = planetaRepository.findByNome(adicionarPlanetaDTO.nome);
         if(!planetaOp.isEmpty()) {
-            throw new BadRequestException("O nome informado já foi cadastrado");
+            throw new BadRequestException(nomeDuplicated);
         }
 
         Planeta planeta = planetaMapper.toPlaneta(adicionarPlanetaDTO);

@@ -11,4 +11,7 @@ public class Planeta {
     public String clima;
     public String terreno;
     public Integer aparicoes;
+
+    public Planeta() {
+    }
 }
